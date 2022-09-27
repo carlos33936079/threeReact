@@ -8,14 +8,14 @@ import Model3D from './components/Model3D';
 
 function App() {
   return (
-    <Model3D/>
     
-    // <BrowserRouter>
-    //   <Header />
-    //   <Main/>
-    //   <Footer/>
-    //   <ToastContainer />
-    // </BrowserRouter>
+    
+    <BrowserRouter>
+      <Header />
+      <Main/>
+      <Footer/>
+      <ToastContainer />
+    </BrowserRouter>
     )
 }
 

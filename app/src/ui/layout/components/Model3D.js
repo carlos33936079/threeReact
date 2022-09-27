@@ -14,7 +14,7 @@ function Model3D() {
 
         const scene = new THREE.Scene();
         scene.background = new THREE.Color("lightblue")
-        const camera = new THREE.PerspectiveCamera(25, width / height, 0.01, 1000)
+        const camera = new THREE.PerspectiveCamera(25, width / height, 0.01, 100)
         scene.add(camera)
         camera.position.z = 6;
         camera.position.x = 6;
@@ -50,8 +50,6 @@ function Model3D() {
           cube.rotation.x = elapsedtime
           cube.position.y = Math.sin(elapsedtime)
          
-
-
           constrols.update()
           renderer.render(scene,camera)
           requestAnimationFrame(animate)

@@ -1,12 +1,15 @@
 import React from 'react'
+import { Route, Routes } from 'react-router-dom'
+import Geometry from './components/Geometry'
 import Model3D from './components/Model3D'
 
 
 function Main() {
   return (
-    <div>
-      <Model3D/>
-    </div>
+    <Routes> 
+      <Route path="/model" element={<Model3D/>} />
+      <Route path="/geometry" element={<Geometry/>} />
+    </Routes>
   )
 }
 
