@@ -1,3 +1,4 @@
+import { render } from '@testing-library/react'
 import React from 'react'
 import { useEffect } from 'react'
 import { useRef } from 'react'
@@ -12,6 +13,7 @@ function Model3D() {
         const {clientWidth: width, clientHeight: height} = currentRef;
 
         const scene = new THREE.Scene();
+        scene.background = new THREE.Color("lightblue")
         const camera = new THREE.PerspectiveCamera(25, width / height, 0.01, 1000)
         scene.add(camera)
         camera.position.z = 6;
@@ -24,22 +26,50 @@ function Model3D() {
         currentRef.appendChild(renderer.domElement)
 
         const constrols = new OrbitControls(camera, renderer.domElement)
+        constrols.enableDamping= true
 
         const geometry = new THREE.BoxGeometry(1, 1, 1)
-        const material = new THREE.MeshBasicMaterial({color: "red"})
+        const material = new THREE.MeshPhongMaterial({color: "lightgreen"})
         const cube = new THREE.Mesh(geometry, material)
         scene.add(cube)
         camera.lookAt(cube.position)
-        renderer.render(scene, camera)
+
+        const ambientLight = new THREE.AmbientLight( 0x404040, 1 ); 
+        scene.add( ambientLight );
+
+        const light = new THREE.PointLight( "gray", 1 );
+        light.position.set( 1, 1, 1 );
+        scene.add( light );
+        
+        const clock = new THREE.Clock()
+        renderer.render(scene,camera)
 
         const animate = () => {
-            renderer.render(scene,camera)
-            requestAnimationFrame(animate)
+          const elapsedtime = clock.getElapsedTime()
+          cube.rotation.y = elapsedtime
+          cube.rotation.x = elapsedtime
+          cube.position.y = Math.sin(elapsedtime)
+         
+
+
+          constrols.update()
+          renderer.render(scene,camera)
+          requestAnimationFrame(animate)
         }
+
+        const resize = () => {
+          const updateWidth = currentRef.clientWidth
+          const updateHeight = currentRef.clientHeight
+          renderer.setSize(updateWidth, updateHeight)
+          camera.aspect = updateWidth / updateHeight
+          camera.updateProjectionMatrix()
+        }
+        window.addEventListener('resize', resize )
         animate()
 
         return() => {
             currentRef.removeChild(renderer.domElement)
+            window.addEventListener('resize', resize)
         }
     },[])
 
