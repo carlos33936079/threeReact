@@ -42,4 +42,10 @@ export const links = [
         name: 'RING',
         path: '/ring',
     },
+    {
+        id: 7,
+        nameShort: 'ModelCustom',
+        name: 'ModelCustom',
+        path: '/modelcustom',
+    },
 ]

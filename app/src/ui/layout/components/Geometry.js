@@ -14,7 +14,9 @@ const Geometry = () => {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(25, width / height, 0.1, 100);
     scene.add(camera);
-    camera.position.z = 8;
+    camera.position.z = 40;
+        camera.position.x = 40;
+        camera.position.y = 40;
     camera.lookAt(new THREE.Vector3(0, 0, 0));
 
     const renderer = new THREE.WebGLRenderer();
@@ -32,9 +34,28 @@ const Geometry = () => {
       camera.updateProjectionMatrix();
     };
     window.addEventListener("resize", resize);
+    const clock = new THREE.Clock()
+
+    //Particles
+    const count = 1000;
+    const particlesPositions = new Float32Array(count * 3);
+    for (let i = 0; i < count * 3; i++) {
+      particlesPositions[i] = Math.random() * (-10 - 10 + 1) + 10;
+    }
+    const particlesAttribute = new THREE.BufferAttribute(particlesPositions, 3);
+    const particlesGeometry = new THREE.BufferGeometry();
+    particlesGeometry.setAttribute("position", particlesAttribute);
+
+    const particlesMaterial = new THREE.PointsMaterial({ color: 0xff0000 });
+    const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(particles);
 
     //Animate the scene and for update the orbit controls
     const animateScene = () => {
+      const elapsedtime = clock.getElapsedTime()
+      particles.rotation.y = elapsedtime/10
+      particles.rotation.x = elapsedtime/10
+      // particles.position.z = Math.sin(elapsedtime*20)
       orbitControls.update();
       renderer.render(scene, camera);
       requestAnimationFrame(animateScene);
@@ -86,19 +107,7 @@ const Geometry = () => {
     // const face = new THREE.Mesh(faceGeometry, faceMaterial);
     // scene.add(face);
 
-    //Particles
-    const count = 1000;
-    const particlesPositions = new Float32Array(count * 3);
-    for (let i = 0; i < count * 3; i++) {
-      particlesPositions[i] = Math.random() * (-10 - 10 + 1) + 10;
-    }
-    const particlesAttribute = new THREE.BufferAttribute(particlesPositions, 3);
-    const particlesGeometry = new THREE.BufferGeometry();
-    particlesGeometry.setAttribute("position", particlesAttribute);
-
-    const particlesMaterial = new THREE.PointsMaterial({ color: 0xff0000 });
-    const particles = new THREE.Points(particlesGeometry, particlesMaterial);
-    scene.add(particles);
+    
 
     //Clean up
     return () => {

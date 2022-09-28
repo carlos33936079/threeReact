@@ -6,6 +6,7 @@ import Model3D from './components/Model3D'
 import Texture from './components/Texture'
 import ModeloGTLF from './components/ModelosGTLF'
 import Ring from './components/Ring'
+import ModelCustom from './components/ModelCustom'
 
 function Main() {
   return (
@@ -16,6 +17,7 @@ function Main() {
       <Route path="/texture" element={<Texture/>} />
       <Route path="/modelogtlf" element={<ModeloGTLF/>} />
       <Route path="/ring" element={<Ring/>} />
+      <Route path="/modelcustom" element={<ModelCustom/>} />
 
     </Routes>
   )

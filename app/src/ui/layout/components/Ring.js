@@ -3,10 +3,13 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader"
 import {DRACOLoader} from "three/examples/jsm/loaders/DRACOLoader"
+import { useState } from "react";
 
 
 const Ring = () => {
   const mountRef = useRef(null);
+  const controls = useRef(null)
+  const [color, setColor] = useState(false)
 
   useEffect(() => {
     //Data from the canvas
@@ -49,6 +52,7 @@ const Ring = () => {
      gltfLoader.setDRACOLoader(dracoLoader)
      gltfLoader.load('./model/ring/dracoRing.gltf', (gltf) =>{
         while(gltf.scene.children.length){
+          console.log(gltf.scene.children[0].name)
             gltf.scene.children[0].material.envMap = evp;
             gltf.scene.children[0].scale.set(0.08, 0.08, 0.08)
             gltf.scene.children[0].position.y = -0.5
@@ -57,8 +61,32 @@ const Ring = () => {
          scene.add(ring)
      })
 
+     //change metal color
+     const changeMetalColor = (color) =>{
+      for (let i = 0; i<ring.children.length; i++){
+        if (ring.children[i].name.includes('ring')){
+          if(color){
+
+            ring.children[i].material.color.set("gold")
+          }else{
+            ring.children[i].material.color.set("white")
+
+          }
+        }
+      }
+     }
+
+     controls.current= {changeMetalColor}
+
+
+     const clock = new THREE.Clock()
+
+
     //Animate the scene
     const animate = () => {
+        const elapsedtime = clock.getElapsedTime()
+      ring.rotation.y = elapsedtime/6
+    //   ring.rotation.x = elapsedtime/10
       orbitControls.update();
       renderer.render(scene, camera);
       requestAnimationFrame(animate);
@@ -88,12 +116,19 @@ const Ring = () => {
     };
   }, []);
 
+  useEffect(() => {
+    controls.current.changeMetalColor(color)
+  },[color])
+
   return (
-    <div
-      className='Contenedor3D'
-      ref={mountRef}
-      style={{ width: "100%", height: "100vh" }}
-    ></div>
+    <>
+      <div
+        className='Contenedor3D'
+        ref={mountRef}
+        style={{ width: "100%", height: "90vh" }}>
+      </div>
+      <button onClick={() => setColor(!color)}>Cambiar Color</button>
+    </>
   );
 };
 
