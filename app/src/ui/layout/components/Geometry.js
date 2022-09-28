@@ -52,14 +52,14 @@ const Geometry = () => {
     scene.add(gridHelper);
 
     //Cube
-    const boxGeometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2);
-    const boxMaterial = new THREE.MeshBasicMaterial({
-      color: 0xfff000,
-      wireframe: true,
-    });
-    const cube = new THREE.Mesh(boxGeometry, boxMaterial);
-    scene.add(cube);
-    cube.position.set(1, 1, 1);
+    // const boxGeometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2);
+    // const boxMaterial = new THREE.MeshBasicMaterial({
+    //   color: 0xfff000,
+    //   wireframe: true,
+    // });
+    // const cube = new THREE.Mesh(boxGeometry, boxMaterial);
+    // scene.add(cube);
+    // cube.position.set(1, 1, 1);
 
     //cube with Buffer Geometry
     // const boxBufferGeometry = new THREE.BoxBufferGeometry(1, 1, 1, 2, 2, 2);
@@ -69,6 +69,7 @@ const Geometry = () => {
     // });
     // const cubeBuffer = new THREE.Mesh(boxBufferGeometry, boxBufferMaterial);
     // scene.add(cubeBuffer);
+    // cubeBuffer.position.set(1, 1, 1);
     // console.log(boxBufferGeometry);
 
     //Faces
@@ -86,18 +87,18 @@ const Geometry = () => {
     // scene.add(face);
 
     //Particles
-    // const count = 1000;
-    // const particlesPositions = new Float32Array(count * 3);
-    // for (let i = 0; i < count * 3; i++) {
-    //   particlesPositions[i] = Math.random() * (-10 - 10 + 1) + 10;
-    // }
-    // const particlesAttribute = new THREE.BufferAttribute(particlesPositions, 3);
-    // const particlesGeometry = new THREE.BufferGeometry();
-    // particlesGeometry.setAttribute("position", particlesAttribute);
+    const count = 1000;
+    const particlesPositions = new Float32Array(count * 3);
+    for (let i = 0; i < count * 3; i++) {
+      particlesPositions[i] = Math.random() * (-10 - 10 + 1) + 10;
+    }
+    const particlesAttribute = new THREE.BufferAttribute(particlesPositions, 3);
+    const particlesGeometry = new THREE.BufferGeometry();
+    particlesGeometry.setAttribute("position", particlesAttribute);
 
-    // const particlesMaterial = new THREE.PointsMaterial({ color: 0xff0000 });
-    // const particles = new THREE.Points(particlesGeometry, particlesMaterial);
-    // scene.add(particles);
+    const particlesMaterial = new THREE.PointsMaterial({ color: 0xff0000 });
+    const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(particles);
 
     //Clean up
     return () => {
